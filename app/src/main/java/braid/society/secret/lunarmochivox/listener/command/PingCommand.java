@@ -1,7 +1,8 @@
-package braid.society.secret.lunarmochivox.commands;
+package braid.society.secret.lunarmochivox.listener.command;
 
 import java.time.Instant;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.InteractionContextType;
 import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,8 @@ public class PingCommand extends CommandCascade {
 
   public PingCommand() {
     super("ping", "Pings the bot");
+    this.addSupportedContext(InteractionContextType.GUILD);
+    this.addSupportedContext(InteractionContextType.BOT_DM);
   }
 
   @Override

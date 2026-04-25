@@ -1,4 +1,4 @@
-package braid.society.secret.lunarmochivox.commands;
+package braid.society.secret.lunarmochivox.listener.command;
 
 import java.util.List;
 import net.dv8tion.jda.api.JDA;
@@ -25,7 +25,6 @@ public class SlashCommandRegistry extends ListenerAdapter {
 
   @Override
   public void onReady(@NonNull ReadyEvent event) {
-    super.onReady(event);
     log.info("Registering {} slash command(s)...", commands.size());
     JDA jda = event.getJDA();
     CommandListUpdateAction update = jda.updateCommands();
@@ -38,7 +37,7 @@ public class SlashCommandRegistry extends ListenerAdapter {
     );
   }
 
-  public List<CommandCascade> getCommandListeners() {
-    return commands;
+  public List<ListenerAdapter> getCommandListeners() {
+    return commands.stream().map(command -> (ListenerAdapter) command).toList();
   }
 }

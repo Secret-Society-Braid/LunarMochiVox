@@ -1,4 +1,4 @@
-package braid.society.secret.lunarmochivox.commands;
+package braid.society.secret.lunarmochivox.listener.command;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,9 @@ public abstract class CommandCascade extends ListenerAdapter {
   protected final CommandData constructSlashCommand() {
     SlashCommandData commandData = Commands.slash(getCommandName(), getInlineDescription());
     commandData.addOptions(getCommandOptions());
+    if (getSupportedContexts().isEmpty()) {
+      throw new IllegalStateException("Command " + getCommandName() + " has no supported contexts");
+    }
     commandData.setContexts(getSupportedContexts());
     return commandData;
   }
