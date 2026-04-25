@@ -12,6 +12,12 @@ junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 jda = { module = "net.dv8tion:JDA", version.ref = "jda" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+guava = { group = "com.google.guava", name = "guava", version = "33.6.0-jre" }
+truth = { group = "com.google.truth", name = "truth", version = "1.4.3" }
+mockito = { group = "org.mockito", name = "mockito-core", version = "5.5.0" }
 
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
+
+[bundles]
+tests = ["truth", "mockito"]

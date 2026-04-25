@@ -22,10 +22,12 @@ application {
 dependencies {
   implementation(libs.jda)
   implementation(libs.logback.classic)
+  implementation(libs.guava)
 
   testImplementation(platform(libs.junit.bom))
   testImplementation(libs.junit.jupiter)
   testRuntimeOnly(libs.junit.platform.launcher)
+  testImplementation(libs.bundles.tests)
 }
 
 jacoco {
