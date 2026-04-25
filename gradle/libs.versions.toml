@@ -1,9 +1,9 @@
 [versions]
-junit = "6.0.0"
+junit = "6.0.3"
 jacoco = "0.8.13"
 java = "25"
 jda = "6.4.1"
-logback = "1.5.18"
+logback = "1.5.32"
 shadow = "8.3.0"
 
 [libraries]
@@ -13,8 +13,8 @@ junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher
 jda = { module = "net.dv8tion:JDA", version.ref = "jda" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 guava = { group = "com.google.guava", name = "guava", version = "33.6.0-jre" }
-truth = { group = "com.google.truth", name = "truth", version = "1.4.3" }
-mockito = { group = "org.mockito", name = "mockito-core", version = "5.5.0" }
+truth = { group = "com.google.truth", name = "truth", version = "1.4.5" }
+mockito = { group = "org.mockito", name = "mockito-core", version = "5.23.0" }
 
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
