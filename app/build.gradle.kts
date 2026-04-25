@@ -50,4 +50,5 @@ tasks.jacocoTestReport {
 
 tasks.shadowJar {
   mergeServiceFiles()
+  archiveFileName.set("LunarMochiVox-bundle.jar")
 }
