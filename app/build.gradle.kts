@@ -13,6 +13,11 @@ java {
   }
 }
 
+application {
+  mainModule = "lunarmochivox.app"
+  mainClass = "braid.society.secret.lunarmochivox.LunarMochiVoxApp"
+}
+
 dependencies {
   testImplementation(platform(libs.junit.bom))
   testImplementation(libs.junit.jupiter)
