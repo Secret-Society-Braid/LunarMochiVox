@@ -28,7 +28,7 @@ public class SlashCommandRegistry extends ListenerAdapter {
     log.info("Registering {} slash command(s)...", commands.size());
     JDA jda = event.getJDA();
     CommandListUpdateAction update = jda.updateCommands();
-    commands.parallelStream()
+    commands.stream()
       .map(CommandCascade::getCommandName)
       .forEach(name -> log.debug("Registering slash command : {}", name));
     update.addCommands(commands.stream().map(CommandCascade::constructSlashCommand).toList()).queue(
