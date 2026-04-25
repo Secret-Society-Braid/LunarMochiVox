@@ -50,7 +50,8 @@
 ## Safe Change Checklist for Agents
 
 - If adding imports from new libraries, update `module-info.java` `requires` clauses as needed.
-- If moving/renaming entrypoint, update `application.mainClass` and verify launch.
+- If moving/renaming entrypoint, update `application.mainClass` and suggest verifying launch.
 - If changing logging behavior, keep both console and rolling-file appenders unless intentionally
   removing one.
-- Validate with at least `test` and `jacocoTestReport` before finishing.
+- Suggest running at least `test` and `jacocoTestReport` before finishing; do not run them
+  automatically. If commands were not run by the user, clearly report verification as pending.
