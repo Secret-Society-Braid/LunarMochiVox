@@ -4,6 +4,7 @@ jacoco = "0.8.13"
 java = "25"
 jda = "6.4.1"
 logback = "1.5.18"
+shadow = "8.3.0"
 
 [libraries]
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
@@ -12,3 +13,5 @@ junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher
 jda = { module = "net.dv8tion:JDA", version.ref = "jda" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
+[plugins]
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }

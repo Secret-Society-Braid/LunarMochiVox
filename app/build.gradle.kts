@@ -2,6 +2,7 @@ plugins {
   java
   application
   jacoco
+  alias(libs.plugins.shadow)
 }
 
 group = "braid.society.secret"
@@ -43,4 +44,8 @@ tasks.jacocoTestReport {
     html.required.set(true)
     csv.required.set(false)
   }
+}
+
+tasks.shadowJar {
+  mergeServiceFiles()
 }
