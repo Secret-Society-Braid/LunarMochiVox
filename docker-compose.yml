@@ -8,6 +8,7 @@ services:
     environment:
       - VOICEVOX_API_PORT=50021
       - VOICEVOX_API_HOST=voicevox_api
+      - LUNAR_MOCHI_VOX_TOKEN=${LUNAR_MOCHI_VOX_TOKEN}
   voicevox_api_for_lunar:
     image: 'voicevox/voicevox_engine:cpu-0.25.1'
     container_name: voicevox_api_for_lunar
