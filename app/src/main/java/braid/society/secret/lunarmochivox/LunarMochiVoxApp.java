@@ -29,7 +29,7 @@ public final class LunarMochiVoxApp {
       } else {
         log.warn("LUNAR_MOCHI_VOX_TOKEN environment variable is missing.");
         log.warn("This behaviour is used for development purposes only.");
-        log.warn("Please consider set the LUNAR_MOCHI_VOX_TOKEN environment variable.");
+        log.warn("Please consider setting the LUNAR_MOCHI_VOX_TOKEN environment variable.");
         token = args[0];
       }
     }
