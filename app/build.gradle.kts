@@ -1,5 +1,7 @@
 plugins {
-  id("java")
+  java
+  application
+  jacoco
 }
 
 group = "braid.society.secret"
