@@ -4,7 +4,7 @@ jacoco = "0.8.13"
 java = "25"
 jda = "6.4.1"
 logback = "1.5.32"
-shadow = "8.3.0"
+shadow = "9.4.1"
 
 [libraries]
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
