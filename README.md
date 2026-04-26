@@ -78,9 +78,9 @@ All of these are welcome!
 
 ## License
 
-This project is licensed under
+This project is licensed under [GNU Affero GPL v3.0 License](./LICENSE).
 
-## Open Source Licenses
+### Open Source Licenses
 
 This project is made possible by a lot of open source projects.
 
