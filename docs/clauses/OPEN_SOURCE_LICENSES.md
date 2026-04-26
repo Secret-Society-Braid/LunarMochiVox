@@ -46,8 +46,3 @@ included in this list.
 (*3) We treat VOICEVOX ENGINE as an LGPL v3.0+ library.
 Individual voicebank usage declarations are not included in this list. Please refer to
 the [VOICEVOX voicebank usage declaration](./VOICEVOX_VOICEBANKS.md) for such information.
-In this project, we use VOICEVOX ENGINE for external API calls, which means we do not include any
-source code for VOICEVOX ENGINE.
-But according to the LGPL v3.0 License, if there is a dynamic link to the licensed application,
-we still need to show license notices for the application.
-And thus, we actually have a link when packaging the application with docker.
