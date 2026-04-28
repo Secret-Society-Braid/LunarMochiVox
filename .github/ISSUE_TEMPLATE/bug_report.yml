@@ -1,0 +1,94 @@
+name: "🐛 バグ・不具合報告"
+description: "動作のおかしい箇所や再現できる不具合を報告してください。"
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        バグ報告ありがとうございます。できる限り詳しく記入していただけると、問題の解決が速くなります。
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "バグの概要"
+      description: "何が起きているかを簡潔に説明してください。"
+      placeholder: "例: ◯◯コマンドを実行すると NullPointerException が発生する"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: "再現手順"
+      description: "バグを再現するための手順を順番に書いてください。"
+      placeholder: |
+        1. ◯◯を起動する
+        2. ◯◯コマンドを実行する
+        3. エラーが発生する
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: "期待する動作"
+      description: "本来どのように動作すべきかを説明してください。"
+      placeholder: "例: ◯◯が正常に表示されるはず"
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: "実際の動作"
+      description: "実際に何が起きているかを説明してください。"
+      placeholder: "例: スタックトレースが出力されてクラッシュする"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: "ログ・スタックトレース"
+      description: "関連するログやエラーメッセージがあれば貼り付けてください。"
+      render: text
+      placeholder: "ここにログを貼り付けてください"
+    validations:
+      required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: "LunarMochiVox のバージョン"
+      description: "使用しているバージョンまたはコミット SHA を記入してください。"
+      placeholder: "例: v1.2.3 または abc1234"
+    validations:
+      required: true
+
+  - type: input
+    id: java_version
+    attributes:
+      label: "Java バージョン"
+      description: "java -version の出力を記入してください。"
+      placeholder: "例: openjdk 25.0.1"
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: "OS・環境"
+      description: "実行環境を記入してください。"
+      placeholder: "例: Windows 11, Ubuntu 22.04, Docker"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: "その他・補足情報"
+      description: "スクリーンショットや追加情報があれば記入してください。"
+    validations:
+      required: false
