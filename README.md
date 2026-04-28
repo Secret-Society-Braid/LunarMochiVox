@@ -57,6 +57,12 @@ Of course, if you have any questions regarding this application, please feel fre
 
 Issuing tickets or asking questions is also a great way to contribute to this project!
 
+We are tracking our issues and your feedbacks in
+the [YouTrack issue tracker](https://lunarmochivox.youtrack.cloud/) to
+keep and organize them in one place.
+
+Please visit them to see what's going on ours!
+
 If you:
 
 - have encountered a bug or feel inconvenient with the application?
@@ -66,12 +72,16 @@ If you:
 All of these are welcome!
 
 - Report issues or bugs in
-  the [issue section](https://github.com/Secret-Society-Braid/LunarMochiVox/issues) and select a
-  template for the bugs.
+  the [issue tracker](https://lunarmochivox.youtrack.cloud/projects/LMV/newIssue?project=LMV) and
+  select a
+  template for the bugs. No log-in required.
 - Ask questions in
-  the [discussion section](https://github.com/Secret-Society-Braid/LunarMochiVox/discussions).
+  the [discussion section](https://github.com/Secret-Society-Braid/LunarMochiVox/discussions) or
+  the [help desk](https://lunarmochivox.youtrack.cloud/form/3c55696d-e81f-4c66-9135-d901b0bedd9e)
+  to talk to us. No log-in is required to use the help desk.
 - Suggest improvements or fresh ideas in
-  the [issue section](https://github.com/Secret-Society-Braid/LunarMochiVox/issues) and select a
+  the [issue tracker](https://lunarmochivox.youtrack.cloud/projects/LMV/newIssue?project=LMV) and
+  select a
   template for the feature request
   or [discussion section](https://github.com/Secret-Society-Braid/LunarMochiVox/discussions) to post
   your thoughts.
