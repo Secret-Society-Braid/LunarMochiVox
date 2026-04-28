@@ -22,9 +22,9 @@
 
 ## 2. テスト時依存関係
 
-> Test dependencies are not included in the app or docker build,
-> which means there is no need to show licenses for them here,
-> but these are a huge help for this project.
+> テスト時依存関係は通常、ビルド後のアプリケーションやイメージには含まれません。
+> しかしながら、これらのOSSライブラリやフレームワークは、プロジェクトを健全に保つうえで
+> 非常に重要な役割を果たしているため、ここに再褐しています。
 
 | Component                | Module / Coordinate                           | Version Source                   | License (SPDX) | Upstream License                                                   |
 |--------------------------|-----------------------------------------------|----------------------------------|----------------|--------------------------------------------------------------------|
