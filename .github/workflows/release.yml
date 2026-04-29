@@ -56,7 +56,7 @@ jobs:
           fi
 
       - name: Build application
-        run: ./gradlew clean build
+        run: ./gradlew clean shadowJar
 
       - name: Create GitHub Release
         env:
@@ -67,6 +67,7 @@ jobs:
         run: |
           gh release create "${TAG_NAME}" \
             --title "${RELEASE_NAME}" \
+            --draft \
             --generate-notes \
             $( [ "${PRERELEASE}" = "true" ] && echo "--prerelease" ) \
-            app/build/libs/*.jar
+            app/build/libs/LunarMochiVox-bundle.jar
