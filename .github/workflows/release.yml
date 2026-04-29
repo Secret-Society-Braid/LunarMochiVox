@@ -41,7 +41,7 @@ jobs:
         id: setup-gradle
         with:
           gradle-version: wrapper
-          cache-provider: basic
+          cache-provider: enhanced
 
       - name: Validate release tag does not already exist
         env:

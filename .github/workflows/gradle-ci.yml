@@ -26,7 +26,7 @@ jobs:
         id: setup-gradle
         with:
           gradle-version: wrapper
-          cache-provider: basic
+          cache-provider: enhanced
 
       - name: Run tests
         run: ./gradlew --info test jacocoTestReport
