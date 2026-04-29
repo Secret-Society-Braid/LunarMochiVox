@@ -62,6 +62,10 @@ jobs:
       - name: Build application
         run: ./gradlew clean shadowJar
 
+      - name: Zip release jar
+        run: |
+          zip LunarMochiVox-bundle.zip app/build/libs/LunarMochiVox-bundle.jar
+
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -74,4 +78,4 @@ jobs:
             --draft \
             --generate-notes \
             $( [ "${PRERELEASE}" = "true" ] && echo "--prerelease" ) \
-            app/build/libs/LunarMochiVox-bundle.jar
+            app/build/libs/LunarMochiVox-bundle.zip
