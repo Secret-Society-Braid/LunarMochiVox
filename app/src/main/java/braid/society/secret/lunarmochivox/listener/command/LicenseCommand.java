@@ -22,9 +22,11 @@ public class LicenseCommand extends CommandCascade {
       .setTitle("オープンソースライセンス",
         "https://github.com/Secret-Society-Braid/LunarMochiVox/blob/main/docs/clauses/OPEN_SOURCE_LICENSES.md")
       .addField("オンラインでの確認", "このメッセージタイトルのリンクより確認できます。", false)
-      .addField("オフラインでの確認を希望する場合",
-        "個別対応となります。開発者 idol_ranfa_master まで要件を添えてご連絡ください。", false)
-      .setFooter("LunarMochiVox - Secret Society Braid")
+      .addField("その他の方法を希望する場合",
+        "個別対応となります。開発者Discord idol_ranfa_master まで要件を添えてご連絡ください。", false)
+      .addField("注意",
+        "メッセージの内容が不適当な場合、スパム対策のため返答いたしませんのでご了承ください。", false)
+      .setFooter("LunarMochiVox - Secret-Society Braid")
       .build();
     deferred.thenAccept(h -> h.sendMessageEmbeds(licenseEmbed).queue());
   }
