@@ -35,10 +35,14 @@ jobs:
         with:
           distribution: temurin
           java-version: "25"
-          cache: gradle
 
-      - name: Make Gradle wrapper executable
-        run: chmod +x ./gradlew
+      - name: Set up Gradle with caching, wrapper
+        uses: gradle/actions/setup-gradle@v6
+        id: setup-gradle
+        with:
+          gradle-version: wrapper
+          cache-disabled: false
+          cache-provider: basic
 
       - name: Validate release tag does not already exist
         env:
@@ -56,7 +60,7 @@ jobs:
           fi
 
       - name: Build application
-        run: ./gradlew clean build
+        run: ./gradlew clean shadowJar
 
       - name: Create GitHub Release
         env:
@@ -67,6 +71,7 @@ jobs:
         run: |
           gh release create "${TAG_NAME}" \
             --title "${RELEASE_NAME}" \
+            --draft \
             --generate-notes \
             $( [ "${PRERELEASE}" = "true" ] && echo "--prerelease" ) \
-            app/build/libs/*.jar
+            app/build/libs/LunarMochiVox-bundle.jar
