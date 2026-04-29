@@ -35,10 +35,13 @@ jobs:
         with:
           distribution: temurin
           java-version: "25"
-          cache: gradle
 
-      - name: Make Gradle wrapper executable
-        run: chmod +x ./gradlew
+      - name: Set up Gradle with caching, wrapper
+        uses: gradle/actions/setup-gradle@v6
+        id: setup-gradle
+        with:
+          gradle-version: wrapper
+          cache-provider: basic
 
       - name: Validate release tag does not already exist
         env:
