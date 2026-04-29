@@ -26,6 +26,7 @@ jobs:
         id: setup-gradle
         with:
           gradle-version: wrapper
+          cache-disabled: false
           cache-provider: basic
 
       - name: Run tests
