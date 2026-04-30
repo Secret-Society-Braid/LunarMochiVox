@@ -64,7 +64,8 @@ jobs:
 
       - name: Zip release jar
         run: |
-          zip LunarMochiVox-bundle.zip app/build/libs/LunarMochiVox-bundle.jar
+          cd app/build/libs
+          zip LunarMochiVox-bundle.zip LunarMochiVox-bundle.jar
 
       - name: Create GitHub Release
         env:
