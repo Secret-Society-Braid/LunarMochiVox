@@ -88,6 +88,19 @@ public class VoiceChannelController {
       });
   }
 
+  public void onDisconnect(SlashCommandInteractionEvent event) {
+    CompletableFuture<InteractionHook> deferred = event.deferReply().submit();
+    VoiceChannel voiceChannel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
+    AudioManager audioManager = voiceChannel.getGuild().getAudioManager();
+    if(!audioManager.isConnected()) {
+      deferred.thenCompose(h -> h.editOriginal("Botを入室させたVCとは別のチャンネルにいるようです。Botがいるチャンネルに入りなおして再度お試しください。").submit());
+    }
+    deferred.thenCompose(
+      h -> h.editOriginal("切断しています……おやすみなさい。").submit()
+    );
+    this.postCleanUp(audioManager, this.boundTextChannelList.get(voiceChannel));
+  }
+
   private void checkVoiceChannelAfk(TextChannel boundTextChannel, AudioManager audioManager) {
     if(audioManager.isConnected() && audioManager.getConnectedChannel().getMembers().size() <= 1) {
       boundTextChannel.sendMessage("誰もいないみたいなので、接続を切断しました。おやすみなさい。")
