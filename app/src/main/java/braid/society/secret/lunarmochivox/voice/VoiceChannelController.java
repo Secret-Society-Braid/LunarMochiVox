@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
@@ -18,6 +19,8 @@ import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.managers.AudioManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VoiceChannelController {
 
@@ -27,6 +30,7 @@ public class VoiceChannelController {
   private static VoiceChannelController instance;
   private static final ThreadFactory afkCheckThreadFactory = ConcurrencyUtil.createThreadFactory("VoiceChannelController-AFKCheck");
   private final Map<VoiceChannel, ScheduledExecutorService> afkCheckSchedulerList;
+  private static final Logger log = LoggerFactory.getLogger(VoiceChannelController.class);
 
   private VoiceChannelController() {
     this.openChannelList = new ConcurrentHashMap<>(5);
@@ -67,7 +71,9 @@ public class VoiceChannelController {
     this.boundTextChannelList.put(voiceChannel, boundTextChannel);
     this.boundGuildList.add(guild);
     ScheduledExecutorService afkCheckScheduler = Executors.newSingleThreadScheduledExecutor(afkCheckThreadFactory);
-    afkCheckScheduler.scheduleAtFixedRate(new AFKChecker(voiceChannel, audioManager), 1, 5, TimeUnit.SECONDS);
+    afkCheckScheduler.scheduleAtFixedRate(
+      () -> this.checkVoiceChannelAfk(boundTextChannel, audioManager),
+      1, 5, TimeUnit.SECONDS);
     this.afkCheckSchedulerList.put(voiceChannel, afkCheckScheduler);
     channelValid
       .thenCompose(m -> m.editMessage("接続が完了しました！").submit())
@@ -82,8 +88,29 @@ public class VoiceChannelController {
       });
   }
 
+  private void checkVoiceChannelAfk(TextChannel boundTextChannel, AudioManager audioManager) {
+    if(audioManager.isConnected() && audioManager.getConnectedChannel().getMembers().size() <= 1) {
+      boundTextChannel.sendMessage("誰もいないみたいなので、接続を切断しました。おやすみなさい。")
+        .queue();
+      this.postCleanUp(audioManager, boundTextChannel);
+    }
+  }
+
+  private void postCleanUp(AudioManager audioManager, TextChannel boundTextChannel) {
+    audioManager.closeAudioConnection();
+    Guild connectedGuild = boundTextChannel.getGuild();
+    boundGuildList.remove(connectedGuild);
+    boundTextChannelList.remove(boundTextChannel);
+    openChannelList.remove(audioManager.getConnectedChannel());
+    try (ExecutorService service = this.afkCheckSchedulerList.remove(boundTextChannel)) {
+      service.shutdown();
+    }
+    log.info("Disconnected from VoiceChannel {} in {}", boundTextChannel.getName(), connectedGuild.getName());
+  }
+
   private String orElseEnv(String envKey, String defaultValue) {
     final String value = System.getenv(envKey);
     return Strings.isNullOrEmpty(value) ? defaultValue : value;
   }
+
 }
