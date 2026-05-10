@@ -6,11 +6,11 @@ import net.dv8tion.jda.api.interactions.InteractionContextType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class vcCommand extends CommandCascade {
+public class VcCommand extends CommandCascade {
 
-  private static final Logger log = LoggerFactory.getLogger(vcCommand.class);
+  private static final Logger log = LoggerFactory.getLogger(VcCommand.class);
 
-  public vcCommand() {
+  public VcCommand() {
     super("vc", "Checks whether you are in a voice channel, and connects you to the first one if not.");
     this.addSupportedContext(InteractionContextType.GUILD);
   }
@@ -19,7 +19,5 @@ public class vcCommand extends CommandCascade {
   protected void respond(SlashCommandInteractionEvent event) {
     final User author = event.getUser();
     log.trace("Received VC command from user {}", event.getUser().getAsTag());
-
-
   }
 }
