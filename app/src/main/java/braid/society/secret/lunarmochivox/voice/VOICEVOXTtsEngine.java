@@ -60,7 +60,6 @@ public class VOICEVOXTtsEngine implements TtsEngine {
       instance = new VOICEVOXTtsEngine(engineApiBaseUrl, engineApiPort);
     }
     instance.loadSpeakers();
-    log.info("Successfully loaded {} speaker(s) from {}:{}", speakerCache.size(), engineApiBaseUrl, engineApiPort);
     return instance;
   }
 
@@ -241,6 +240,7 @@ public class VOICEVOXTtsEngine implements TtsEngine {
       speakerCache = MAPPER.readValue(is, MAPPER.getTypeFactory().constructCollectionType(Set.class, Speaker.class));
       log.debug("Parsed response from Engine API at {} : {} speaker(s).", call.request().url(), speakerCache.size());
       prevAttemptFailed.set(false);
+      log.info("Successfully loaded {} speaker(s) from {}", speakerCache.size(), call.request().url());
     }
 
     @Override
