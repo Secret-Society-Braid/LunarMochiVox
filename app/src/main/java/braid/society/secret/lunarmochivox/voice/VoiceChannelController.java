@@ -54,13 +54,13 @@ public class VoiceChannelController {
   public void onConnect(SlashCommandInteractionEvent event) {
     CompletableFuture<InteractionHook> deferred = event.deferReply().submit();
     if(this.checkConnected(event)) {
-      deferred.thenCompose(h -> h.editOriginal("すでに接続されているようです。二重参加はできません！").submit());
+      deferred.thenComposeAsync(h -> h.editOriginal("すでに接続されているようです。二重参加はできません！").submit());
       return;
     }
     TextChannel boundTextChannel = event.getGuildChannel().asTextChannel();
     VoiceChannel voiceChannel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
     Guild guild = event.getGuild();
-    CompletableFuture<Message> channelValid = deferred.thenCompose(h -> h.editOriginal("ボイスチャンネルが見つかりました！接続しています……").submit());
+    CompletableFuture<Message> channelValid = deferred.thenComposeAsync(h -> h.editOriginal("ボイスチャンネルが見つかりました！接続しています……").submit());
     AudioManager audioManager = voiceChannel.getGuild().getAudioManager();
     audioManager.openAudioConnection(voiceChannel);
     audioManager.setSendingHandler(
@@ -76,8 +76,8 @@ public class VoiceChannelController {
       1, 5, TimeUnit.SECONDS);
     this.afkCheckSchedulerList.put(voiceChannel, afkCheckScheduler);
     channelValid
-      .thenCompose(m -> m.editMessage("接続が完了しました！").submit())
-      .thenCompose(_ -> {
+      .thenComposeAsync(m -> m.editMessage("接続が完了しました！").submit())
+      .thenComposeAsync(_ -> {
         final EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle("接続完了");
         embedBuilder.setDescription(String.format("ボイスチャンネル「%s」に接続しました！", voiceChannel.getName()));
@@ -85,6 +85,12 @@ public class VoiceChannelController {
         embedBuilder.setFooter("LunarMochiVox", null);
         embedBuilder.setColor(0x00FF00);
         return boundTextChannel.sendMessageEmbeds(embedBuilder.build()).submit();
+      }).whenCompleteAsync((m, t) -> {
+        if(t != null) {
+          log.warn("Failed to send connection confirmation message to TextChannel {} in Guild {}. Disconnecting from the VoiceChannel {} to prevent being stuck in a channel without control.", boundTextChannel.getName(), guild.getName(), voiceChannel.getName(), t);
+          return;
+        }
+        log.debug("Successfully connected to VoiceChannel {} in Guild {} and sent confirmation message to TextChannel {}", voiceChannel.getName(), guild.getName(), boundTextChannel.getName());
       });
   }
 
