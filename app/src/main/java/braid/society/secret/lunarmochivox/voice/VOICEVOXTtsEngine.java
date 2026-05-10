@@ -1,5 +1,6 @@
 package braid.society.secret.lunarmochivox.voice;
 
+import braid.society.secret.lunarmochivox.util.MetaPropertyUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
@@ -77,9 +78,12 @@ public class VOICEVOXTtsEngine implements TtsEngine {
     client.newCall(request).enqueue(new SpeakerLoadCallback());
   }
 
-  private int selectSpeakerId(User user, int defaultSpeakerId) {
+  private int selectSpeakerId(User user) {
     if (speakerCache == null || speakerCache.isEmpty()) {
       throw new IllegalStateException("No speakers loaded from VoiceVox API");
+    }
+    if(user.getName().equals(MetaPropertyUtil.getDevUserId())) {
+      return 8;
     }
     for (Map.Entry<Integer, Set<User>> entry : tiedSpeakerCache.entrySet()) {
       if (entry.getValue().contains(user)) {
@@ -88,7 +92,7 @@ public class VOICEVOXTtsEngine implements TtsEngine {
           .filter(s -> s.id() == entry.getKey())
           .findFirst()
           .map(Speaker.Style::id)
-          .orElse(defaultSpeakerId); // Default to a common speaker ID if not found
+          .orElse(8); // Default to a common speaker ID if not found
       }
     }
     // Randomly select a speaker and style
@@ -221,7 +225,7 @@ public class VOICEVOXTtsEngine implements TtsEngine {
   @Override
   public byte[] say(String phrase, User author) throws IOException {
     // TODO: implement caching
-    final int speakerId = selectSpeakerId(author, 8);
+    final int speakerId = selectSpeakerId(author);
     byte[] ttsData = tts(retrieveJsonAudioQuery(phrase, speakerId), speakerId);
     return convertToDiscordCompatible(resampling(ttsData, 16, 24000, 48000));
   }
