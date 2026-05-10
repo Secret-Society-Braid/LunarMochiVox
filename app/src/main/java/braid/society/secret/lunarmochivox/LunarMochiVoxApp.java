@@ -2,8 +2,11 @@ package braid.society.secret.lunarmochivox;
 
 import braid.society.secret.lunarmochivox.listener.ReadyListener;
 import braid.society.secret.lunarmochivox.listener.command.SlashCommandRegistry;
+import club.minnced.discord.jdave.interop.JDaveSessionFactory;
 import java.util.List;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.audio.AudioModuleConfig;
+import net.dv8tion.jda.api.audio.dave.DaveSessionFactory;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
@@ -50,9 +53,11 @@ public final class LunarMochiVoxApp {
       GatewayIntent.GUILD_EXPRESSIONS,
       GatewayIntent.GUILD_MEMBERS
     );
+    DaveSessionFactory daveSessionFactory = new JDaveSessionFactory();
     builder
       .disableCache(cacheFlagsToDisable)
       .enableIntents(gatewayIntentsToEnable)
+      .setAudioModuleConfig(new AudioModuleConfig().withDaveSessionFactory(daveSessionFactory))
       .setActivity(Activity.listening("the sound of the moon"))
       .addEventListeners(
         new ReadyListener(),

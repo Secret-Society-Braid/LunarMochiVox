@@ -21,6 +21,7 @@ application {
 
 dependencies {
   implementation(libs.jda)
+  implementation(libs.bundles.jdave)
   implementation(libs.logback.classic)
   implementation(libs.guava)
   implementation(libs.bundles.jackson)
