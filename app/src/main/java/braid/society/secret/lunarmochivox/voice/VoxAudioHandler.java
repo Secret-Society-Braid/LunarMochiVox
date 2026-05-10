@@ -42,33 +42,48 @@ public class VoxAudioHandler implements AudioSendHandler {
 
   @Override
   public boolean canProvide() {
+    // Defensive: if we don't have any audio yet, we can't provide
+    if (out == null) {
+      return false;
+    }
+
     boolean canProvide = position < out.length;
 
-    if(canProvide) {
-      lastFrame = ByteBuffer.wrap(out, position, engine.getAudioFrame());
-      position += engine.getAudioFrame();
+    if (canProvide) {
+      // Ensure we don't request more than remaining bytes
+      int frame = Math.min(engine.getAudioFrame(), out.length - position);
+      lastFrame = ByteBuffer.wrap(out, position, frame);
+      position += frame;
 
-      if(position >= out.length) {
+      if (position >= out.length) {
         log.info("Bot may finish speaking.");
         setSpeaking(false);
       }
     }
+
     return canProvide;
   }
 
   public void speak(String phrase, User author) throws IOException {
+    // Wait while someone else is speaking, then mark ourselves speaking while holding the lock
     lock.lock();
     try {
-      while(!this.isSpeaking) {
+      while (this.isSpeaking) {
         speakingCondition.await();
       }
+      // Mark speaking while still under lock to avoid races where canProvide is invoked
+      // before out is assigned
+      this.isSpeaking = true;
     } catch (InterruptedException e) {
       log.error("Someone interrupted me while waiting for speaking condition", e);
+      // If interrupted, ensure we don't stay in a speaking state
+      this.isSpeaking = false;
+      throw new IOException("Interrupted while waiting to speak", e);
     } finally {
       lock.unlock();
     }
-    setSpeaking(true);
-    this.position = Integer.MAX_VALUE;
+
+    // Generate audio outside the lock (potentially slow/blocking)
     this.out = engine.say(phrase, author);
     this.position = 0;
   }
