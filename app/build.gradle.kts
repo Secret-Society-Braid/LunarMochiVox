@@ -39,6 +39,15 @@ jacoco {
 tasks.test {
   useJUnitPlatform()
   finalizedBy(tasks.jacocoTestReport)
+  jvmArgs(
+    "--enable-native-access=ALL-UNNAMED",
+  )
+}
+
+tasks.withType<JavaExec> {
+  jvmArgs(
+    "--enable-native-access=ALL-UNNAMED",
+  )
 }
 
 tasks.jacocoTestReport {
