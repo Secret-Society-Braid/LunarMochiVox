@@ -1,6 +1,7 @@
 package braid.society.secret.lunarmochivox.voice;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.List;
 
 public record Speaker(String name, @JsonProperty("speaker_uuid") String speakerUuid,
@@ -12,16 +13,17 @@ public record Speaker(String name, @JsonProperty("speaker_uuid") String speakerU
     @JsonProperty("permitted_synthesis_morphing")
     private final PermittedSynthesisMorphing permittedSynthesisMorphing;
 
-    private SupportedFeatures(PermittedSynthesisMorphing permittedSynthesisMorphing) {
+    @JsonCreator
+    public SupportedFeatures(@JsonProperty("permitted_synthesis_morphing") PermittedSynthesisMorphing permittedSynthesisMorphing) {
       this.permittedSynthesisMorphing = permittedSynthesisMorphing;
     }
 
-    PermittedSynthesisMorphing getPermittedSynthesisMorphing() {
+    public PermittedSynthesisMorphing getPermittedSynthesisMorphing() {
       return permittedSynthesisMorphing;
     }
 
     @SuppressWarnings("unused")
-    enum PermittedSynthesisMorphing {
+    public enum PermittedSynthesisMorphing {
       ALL,
       SELF_ONLY,
       NOTHING
