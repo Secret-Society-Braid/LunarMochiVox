@@ -3,6 +3,7 @@ package braid.society.secret.lunarmochivox.voice;
 import braid.society.secret.lunarmochivox.util.ConcurrencyUtil;
 import com.google.common.base.Strings;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -104,27 +105,53 @@ public class VoiceChannelController {
     deferred.thenCompose(
       h -> h.editOriginal("切断しています……おやすみなさい。").submit()
     );
-    this.postCleanUp(audioManager, this.boundTextChannelList.get(voiceChannel));
+    this.postCleanUp(voiceChannel, audioManager, this.boundTextChannelList.get(voiceChannel));
   }
 
   private void checkVoiceChannelAfk(TextChannel boundTextChannel, AudioManager audioManager) {
     if(audioManager.isConnected() && audioManager.getConnectedChannel().getMembers().size() <= 1) {
       boundTextChannel.sendMessage("誰もいないみたいなので、接続を切断しました。おやすみなさい。")
         .queue();
-      this.postCleanUp(audioManager, boundTextChannel);
+      this.postCleanUp(audioManager.getConnectedChannel().asVoiceChannel(), audioManager,
+        boundTextChannel);
     }
   }
 
-  private void postCleanUp(AudioManager audioManager, TextChannel boundTextChannel) {
+  public boolean isBoundTextChannel(TextChannel textChannel) {
+    return this.boundTextChannelList.values().stream()
+      .anyMatch(channel -> channel.getIdLong() == textChannel.getIdLong());
+  }
+
+  public Optional<VoxAudioHandler> findBoundAudioHandler(TextChannel textChannel) {
+    return this.boundTextChannelList.entrySet().stream()
+      .filter(entry -> entry.getValue().getIdLong() == textChannel.getIdLong())
+      .findFirst()
+      .map(Map.Entry::getKey)
+      .map(this.openChannelList::get)
+      .filter(AudioManager::isConnected)
+      .map(AudioManager::getSendingHandler)
+      .filter(VoxAudioHandler.class::isInstance)
+      .map(VoxAudioHandler.class::cast);
+  }
+
+  private void postCleanUp(VoiceChannel voiceChannel, AudioManager audioManager,
+    TextChannel boundTextChannel) {
+    if (voiceChannel == null || boundTextChannel == null) {
+      log.warn("Skip cleanup because voice/text channel binding is missing.");
+      audioManager.closeAudioConnection();
+      return;
+    }
     audioManager.closeAudioConnection();
     Guild connectedGuild = boundTextChannel.getGuild();
     boundGuildList.remove(connectedGuild);
-    boundTextChannelList.remove(boundTextChannel);
-    openChannelList.remove(audioManager.getConnectedChannel());
-    try (ExecutorService service = this.afkCheckSchedulerList.remove(boundTextChannel)) {
+    boundTextChannelList.remove(voiceChannel);
+    openChannelList.remove(voiceChannel);
+    ExecutorService service = this.afkCheckSchedulerList.remove(voiceChannel);
+    if (service != null) {
       service.shutdown();
     }
-    log.info("Disconnected from VoiceChannel {} in {}", boundTextChannel.getName(), connectedGuild.getName());
+    log.info("Disconnected from VoiceChannel {} in {}", voiceChannel.getName(),
+      connectedGuild.getName());
   }
 
   private String orElseEnv(String envKey, String defaultValue) {
