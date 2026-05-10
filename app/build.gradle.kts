@@ -15,7 +15,6 @@ java {
 }
 
 application {
-  mainModule = "lunarmochivox.app"
   mainClass = "braid.society.secret.lunarmochivox.LunarMochiVoxApp"
 }
 
