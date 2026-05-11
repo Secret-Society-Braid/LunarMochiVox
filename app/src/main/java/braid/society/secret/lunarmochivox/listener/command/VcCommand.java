@@ -23,7 +23,8 @@ public class VcCommand extends CommandCascade {
     log.trace("Received VC command from user {}", author.getAsTag());
     if (controller.checkConnected(event)) {
       controller.onDisconnect(event);
+    } else {
+      controller.onConnect(event);
     }
-    controller.onConnect(event);
   }
 }
