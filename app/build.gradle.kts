@@ -15,12 +15,12 @@ java {
 }
 
 application {
-  mainModule = "lunarmochivox.app"
   mainClass = "braid.society.secret.lunarmochivox.LunarMochiVoxApp"
 }
 
 dependencies {
   implementation(libs.jda)
+  implementation(libs.bundles.jdave)
   implementation(libs.logback.classic)
   implementation(libs.guava)
   implementation(libs.bundles.jackson)
@@ -38,6 +38,15 @@ jacoco {
 tasks.test {
   useJUnitPlatform()
   finalizedBy(tasks.jacocoTestReport)
+  jvmArgs(
+    "--enable-native-access=ALL-UNNAMED",
+  )
+}
+
+tasks.withType<JavaExec> {
+  jvmArgs(
+    "--enable-native-access=ALL-UNNAMED",
+  )
 }
 
 tasks.jacocoTestReport {
