@@ -109,6 +109,7 @@ public class VoiceChannelController {
     AudioManager audioManager = voiceChannel.getGuild().getAudioManager();
     if(!audioManager.isConnected()) {
       deferred.thenCompose(h -> h.editOriginal("Botを入室させたVCとは別のチャンネルにいるようです。Botがいるチャンネルに入りなおして再度お試しください。").submit());
+      return;
     }
     deferred.thenCompose(
       h -> h.editOriginal("切断しています……おやすみなさい。").submit()
