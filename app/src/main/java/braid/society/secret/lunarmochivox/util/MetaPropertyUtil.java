@@ -24,11 +24,13 @@ public class MetaPropertyUtil {
 
   private static Properties getMetaProperties() throws IOException {
     Properties prop = new Properties();
-    InputStream input = MetaPropertyUtil.class.getClassLoader().getResourceAsStream("meta.properties");
-    if (input == null) {
-      return null;
+    try (InputStream input = MetaPropertyUtil.class.getClassLoader()
+      .getResourceAsStream("meta.properties")) {
+      if (input == null) {
+        return null;
+      }
+      prop.load(input);
     }
-    prop.load(input);
     return prop;
   }
 }
