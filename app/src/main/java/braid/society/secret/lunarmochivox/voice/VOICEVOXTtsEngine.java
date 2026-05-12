@@ -204,7 +204,7 @@ public class VOICEVOXTtsEngine implements TtsEngine {
   }
 
   private byte[] convertToDiscordCompatible(byte[] pcm) {
-    // Add a bit of silence to the end of the audio data to avoid cutting off the last frame
+    // Add a bit of silence to the beginning of the audio data to avoid cutting off the last frame
     byte[] converted = new byte[AUDIO_FRAME + pcm.length * 2 + (AUDIO_FRAME
       - pcm.length * 2 % AUDIO_FRAME)]; // Ensures the length is a multiple of AUDIO_FRAME
     for (int i = AUDIO_FRAME; i < pcm.length; i += 2) {
