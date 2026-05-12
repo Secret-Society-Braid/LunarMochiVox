@@ -96,6 +96,7 @@ public class VoiceChannelController {
       }).whenCompleteAsync((m, t) -> {
         if(t != null) {
           log.warn("Failed to send connection confirmation message to TextChannel {} in Guild {}. Disconnecting from the VoiceChannel {} to prevent being stuck in a channel without control.", boundTextChannel.getName(), guild.getName(), voiceChannel.getName(), t);
+          postCleanUp(voiceChannel, audioManager, boundTextChannel);
           return;
         }
         log.debug("Successfully connected to VoiceChannel {} in Guild {} and sent confirmation message to TextChannel {}", voiceChannel.getName(), guild.getName(), boundTextChannel.getName());
