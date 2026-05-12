@@ -110,7 +110,7 @@ public class VOICEVOXTtsEngine implements TtsEngine {
       .newBuilder()
       .addPathSegment("audio_query")
       .addQueryParameter("speaker", String.valueOf(speakerId))
-      .addEncodedQueryParameter("text", phrase)
+      .addQueryParameter("text", phrase)
       .build();
     final RequestBody body = RequestBody.create("", MediaType.get("application/json"));
     Request audioQueryRequest = new Request.Builder()
