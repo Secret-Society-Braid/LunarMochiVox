@@ -240,8 +240,10 @@ public class VOICEVOXTtsEngine implements TtsEngine {
         log.error("No Engine API available at {}, unable to initialize.", call.request().url());
         throw new IllegalStateException("Engine API server responded with status code " + response.code());
       }
-      InputStream is = response.body().byteStream();
-      speakerCache = MAPPER.readValue(is, MAPPER.getTypeFactory().constructCollectionType(List.class, Speaker.class));
+      try (InputStream is = response.body().byteStream()) {
+        speakerCache = MAPPER.readValue(is,
+          MAPPER.getTypeFactory().constructCollectionType(List.class, Speaker.class));
+      }
       log.debug("Parsed response from Engine API at {} : {} speaker(s).", call.request().url(), speakerCache.size());
       prevAttemptFailed.set(false);
       log.info("Successfully loaded {} speaker(s) from {}", speakerCache.size(), call.request().url());
