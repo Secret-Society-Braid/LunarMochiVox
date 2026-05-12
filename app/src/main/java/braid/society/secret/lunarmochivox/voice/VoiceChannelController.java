@@ -3,6 +3,7 @@ package braid.society.secret.lunarmochivox.voice;
 import braid.society.secret.lunarmochivox.util.ConcurrencyUtil;
 import com.google.common.base.Strings;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -14,6 +15,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
@@ -59,7 +61,12 @@ public class VoiceChannelController {
       return;
     }
     TextChannel boundTextChannel = event.getGuildChannel().asTextChannel();
-    VoiceChannel voiceChannel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
+    GuildVoiceState voiceState = Objects.requireNonNull(event.getMember()).getVoiceState();
+    if(voiceState == null || voiceState.getChannel() == null) {
+      deferred.thenComposeAsync(h -> h.editOriginal("接続しているボイスチャンネルが見つかりません。ボイスチャンネルに入室してから再度お試しください。").submit());
+      return;
+    }
+    VoiceChannel voiceChannel = voiceState.getChannel().asVoiceChannel();
     Guild guild = event.getGuild();
     CompletableFuture<Message> channelValid = deferred.thenComposeAsync(h -> h.editOriginal("ボイスチャンネルが見つかりました！接続しています……").submit());
     AudioManager audioManager = voiceChannel.getGuild().getAudioManager();
