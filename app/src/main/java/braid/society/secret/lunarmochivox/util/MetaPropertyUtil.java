@@ -14,7 +14,7 @@ public class MetaPropertyUtil {
       Properties prop = Objects.requireNonNull(getMetaProperties());
       String devUserId = prop.getProperty("DEV_USER", null);
       if (devUserId == null || devUserId.isBlank()) {
-        return null;
+        return "";
       }
       return devUserId;
     } catch (Exception e) {
