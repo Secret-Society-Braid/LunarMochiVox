@@ -18,7 +18,8 @@ public class SlashCommandRegistry extends ListenerAdapter {
     commands = List.of(
       new PingCommand(),
       new LicenseCommand(),
-      new VcCommand()
+      new VcCommand(),
+      new ReportCommand()
     );
   }
 

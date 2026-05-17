@@ -8,6 +8,6 @@ public class MetaPropertyUtilTest {
   @Test
   void testGetDevUser() {
     String actual = MetaPropertyUtil.getDevUserId();
-    Truth.assertThat(actual).isEqualTo("idol_ranfa_master");
+    Truth.assertThat(actual).isEqualTo("399143446939697162");
   }
 }
