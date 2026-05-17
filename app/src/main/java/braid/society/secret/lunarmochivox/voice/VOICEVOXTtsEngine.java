@@ -82,7 +82,7 @@ public class VOICEVOXTtsEngine implements TtsEngine {
     if (speakerCache == null || speakerCache.isEmpty()) {
       throw new IllegalStateException("No speakers loaded from VoiceVox API");
     }
-    if(user.getName().equals(MetaPropertyUtil.getDevUserId())) {
+    if(user.getId().equals(MetaPropertyUtil.getDevUserId())) {
       return 8;
     }
     for (Map.Entry<Integer, Set<User>> entry : tiedSpeakerCache.entrySet()) {
