@@ -16,6 +16,11 @@ on:
         required: false
         default: false
         type: boolean
+      draft:
+        description: "Mark as draft"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -73,10 +78,11 @@ jobs:
           TAG_NAME: ${{ inputs.tag_name }}
           RELEASE_NAME: ${{ inputs.release_name }}
           PRERELEASE: ${{ inputs.prerelease }}
+          DRAFT: ${{ inputs.draft }}
         run: |
           gh release create "${TAG_NAME}" \
             --title "${RELEASE_NAME}" \
-            --draft \
+            $( [ "${DRAFT}" = "true" ] && echo "--draft" ) \
             --generate-notes \
             $( [ "${PRERELEASE}" = "true" ] && echo "--prerelease" ) \
             app/build/libs/LunarMochiVox-bundle.zip
