@@ -1,0 +1,76 @@
+name: monthly
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create monthly release branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          BRANCH="release/iter/$(date +'%Y.%m')"
+
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          if git ls-remote --exit-code --heads origin "$BRANCH"; then
+            echo "Branch $BRANCH already exists."
+          else
+            git checkout -b "$BRANCH"
+            git push origin "$BRANCH"
+          fi
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          BRANCH="release/iter/$(date +'%Y.%m')"
+          TITLE="Release Iteration $(date +'%Y-%m')"
+          BODY="This PR prepares the release branch for the iteration of $(date +'%Y-%m')."
+
+          PR_URL="$(gh pr list --head "$BRANCH" --base main --json url --jq '.[0].url')"
+
+          if [ -z "$PR_URL" ]; then
+            PR_URL="$(gh pr create \
+              --title "$TITLE" \
+              --body "$BODY" \
+              --base main \
+              --head "$BRANCH")"
+          fi
+
+          echo "PR_URL=$PR_URL" >> "$GITHUB_ENV"
+
+          gh pr edit "$PR_URL" \
+            --add-label "release-iteration"
+
+          # 必要なら明示ユーザーにする
+          # gh pr edit "$PR_URL" --assignee your-github-username
+
+          # Copilot reviewer は環境によって失敗する可能性があるため optional
+          gh pr edit "$PR_URL" --add-reviewer "@copilot" || true
+
+      - name: Add Todo comment to PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          gh pr comment "$PR_URL" \
+            --body "TODO: Update version strings to appropriate number."
