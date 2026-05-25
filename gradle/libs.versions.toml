@@ -1,5 +1,5 @@
 [versions]
-junit = "6.0.3"
+junit = "6.1.0"
 jacoco = "0.8.13"
 java = "25"
 jda = "6.4.1"
