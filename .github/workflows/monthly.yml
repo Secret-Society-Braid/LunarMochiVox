@@ -42,8 +42,8 @@ jobs:
           set -euo pipefail
 
           BRANCH="release/iter/$(date +'%Y.%m')"
-          TITLE="Release Iteration $(date +'%Y-%m')"
-          BODY="This PR prepares the release branch for the iteration of $(date +'%Y-%m')."
+          TITLE="Release Iteration for $(date +'%Y.%m')"
+          BODY="This PR prepares the release branch for the iteration of $(date +'%Y.%m')."
 
           PR_URL="$(gh pr list --head "$BRANCH" --base main --json url --jq '.[0].url')"
 
@@ -60,10 +60,6 @@ jobs:
           gh pr edit "$PR_URL" \
             --add-label "release-iteration"
 
-          # 必要なら明示ユーザーにする
-          # gh pr edit "$PR_URL" --assignee your-github-username
-
-          # Copilot reviewer は環境によって失敗する可能性があるため optional
           gh pr edit "$PR_URL" --add-reviewer "@copilot" || true
 
       - name: Add Todo comment to PR
