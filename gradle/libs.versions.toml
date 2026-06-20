@@ -2,10 +2,10 @@
 junit = "6.1.0"
 jacoco = "0.8.13"
 java = "25"
-jda = "6.4.1"
-logback = "1.5.32"
-shadow = "9.4.1"
-jackson = "2.21.3"
+jda = "6.4.2"
+logback = "1.5.34"
+shadow = "9.4.2"
+jackson = "2.22.0"
 jdave = "0.1.8"
 
 [libraries]
@@ -22,7 +22,7 @@ truth = { group = "com.google.truth", name = "truth", version = "1.4.5" }
 mockito = { group = "org.mockito", name = "mockito-core", version = "5.23.0" }
 jackson-core = { group = "com.fasterxml.jackson.core", name = "jackson-core", version.ref = "jackson" }
 jackson-databind = { group = "com.fasterxml.jackson.core", name = "jackson-databind", version.ref = "jackson" }
-jackson-annotations = { group = "com.fasterxml.jackson.core", name = "jackson-annotations", version = "2.21" }
+jackson-annotations = { group = "com.fasterxml.jackson.core", name = "jackson-annotations", version = "2.22" }
 
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
