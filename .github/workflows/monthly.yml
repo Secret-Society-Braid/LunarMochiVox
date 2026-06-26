@@ -32,6 +32,7 @@ jobs:
             echo "Branch $BRANCH already exists."
           else
             git checkout -b "$BRANCH"
+            git commit --allow-empty -m "Start release iteration $(date +'%Y.%m')"
             git push origin "$BRANCH"
           fi
 
