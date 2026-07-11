@@ -2,10 +2,10 @@
 junit = "6.1.1"
 jacoco = "0.8.13"
 java = "25"
-jda = "6.4.2"
-logback = "1.5.37"
-shadow = "9.4.3"
-jackson = "2.22.0"
+jda = "6.5.0"
+logback = "1.5.38"
+shadow = "9.5.1"
+jackson = "2.22.1"
 jdave = "0.1.8"
 
 [libraries]
