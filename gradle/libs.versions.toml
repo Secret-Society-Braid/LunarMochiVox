@@ -2,7 +2,7 @@
 junit = "6.1.3"
 jacoco = "0.8.13"
 java = "25"
-jda = "6.5.0"
+jda = "6.6.0"
 logback = "1.6.3"
 shadow = "9.6.1"
 jackson = "2.22.2"
