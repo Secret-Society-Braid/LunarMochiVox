@@ -1,10 +1,12 @@
 package braid.society.secret.lunarmochivox;
 
-import braid.society.secret.lunarmochivox.listener.ReadyListener;
 import braid.society.secret.lunarmochivox.listener.BoundTextChannelSpeechListener;
+import braid.society.secret.lunarmochivox.listener.ReadyListener;
 import braid.society.secret.lunarmochivox.listener.command.SlashCommandRegistry;
+import braid.society.secret.lunarmochivox.util.DotEnvTraversalUtil;
 import braid.society.secret.lunarmochivox.voice.VoiceChannelController;
 import club.minnced.discord.jdave.interop.JDaveSessionFactory;
+import java.nio.file.Path;
 import java.util.List;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.audio.AudioModuleConfig;
@@ -25,7 +27,8 @@ public final class LunarMochiVoxApp {
 
   static void main(String[] args) {
     log.info("LunarMochiVox is starting...");
-    String token = System.getenv("LUNAR_MOCHI_VOX_TOKEN");
+    String token = DotEnvTraversalUtil.getFromDotEnvFile("LUNAR_MOCHI_VOX_TOKEN", Path.of(".env"))
+      .orElse(System.getenv("LUNAR_MOCHI_VOX_TOKEN"));
     if (token == null || token.isBlank()) {
       if (args.length == 0) {
         log.error(
